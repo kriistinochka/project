@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Genres:</h2>
+    <ul>
+        {% for genre in genres %}
+            <li>
+                <a href="{% url 'songs:genre_filter' genre.id %}">{{ genre.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <hr>
+    {% for song in songs %}
+        <h3>Title: {{ song.title }} </h3>
+        <p>Artist: {{ song.artist }} </p>
+        <p>Album: {{ song.album }} </p>
+        <p>Genre: {{ song.genre }} </p>
+        <a href="{% url 'songs:song_detail' song.id %}">View</a>
+        <br>
+        {% if user.is_authenticated %}
+        <form action="{% url 'songs:add_song_to_playlist' song.id %}" method="post">
+            {% csrf_token %}
+            <label for="playlist">Add to Playlist:</label>
+            <select name="playlist" id="playlist">
+                {% for playlist in playlists %}
+                    <option value="{{ playlist.id }}">{{ playlist.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Add</button>
+        </form>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

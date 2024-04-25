@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ title }}</title>
+</head>
+<body>
+<header>
+    <div>
+        {% if user.is_authenticated %}
+            Current user: {{ user.username }}
+        {% else %}
+            Current user: Not logged in
+        {% endif %}
+    </div>
+    <br>
+    <div>
+        auth:
+        <ul>
+            {% if user.is_authenticated %}
+                <form action="{% url 'users:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <li><a href="{% url 'users:login' %}">Login</a><br></li>
+                <li><a href="{% url 'users:register' %}">Register</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <br>
+    <div>
+        songs:
+        <a href="{% url 'songs:index' %}">Songs</a>
+    </div>
+    {% if user.is_authenticated %}
+        <div>
+            playlists:
+            <ul>
+                <li><a href="{% url 'songs:playlist_list' %}">All playlists</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'songs:create_playlist' %}">Create playlist</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+    <hr>
+</header>
+{% block content %} {% endblock %}
+</body>
+</html>

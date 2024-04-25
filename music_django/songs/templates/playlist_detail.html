@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Playlist {{ playlist }}</h1>
+    <p>Name: {{ playlist.name }}</p>
+    <p>Category: {{ playlist.category }}</p>
+    <hr>
+    <h3>Songs in list</h3>
+    <ul>
+        {% for song in songs %}
+            <h3>Title: {{ song.title }} </h3>
+            <p>Artist: {{ song.artist }} </p>
+            <p>Album: {{ song.album }} </p>
+            <p>Genre: {{ song.genre }} </p>
+            <a href="{% url 'songs:song_detail' song.id %}">View</a>
+            <a href="{% url 'songs:remove_song_from_playlist' playlist.id song.id %}">Remove</a>
+            <hr>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>My Playlists</h1>
+        {% for playlist in playlists %}
+            <h3>Playlist: {{ playlist.name }}</h3>
+            <h4>Category: {{ playlist.category }}</h4>
+            <ul>
+            <li><a href="{% url 'songs:playlist_detail' playlist.id %}">View</a></li>
+            <li><a href="{% url 'songs:remove_playlist' playlist.id %}">Remove</a></li>
+            </ul>
+            <hr>
+        {% endfor %}
+{% endblock %}
